@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../db');
+const Balance = require('./Balance');
 
 class User extends Model {}
 
@@ -21,8 +22,14 @@ User.init(
   {
     // Other model options go here
     sequelize, // We need to pass the connection instance
-    modelName: 'User', // We need to choose the model name
+    modelName: 'user', // We need to choose the model name
   }
 );
+
+//One-To-Many relationships
+//From User to Balance
+//this means that Balance model has a foreign key from User model
+User.hasMany(Balance);
+Balance.belongsTo(User);
 
 module.exports = User;
