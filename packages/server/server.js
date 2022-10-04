@@ -12,7 +12,7 @@ db.authenticate()
 //FUNCTION USING TO SYNCRONIZE NEW MODEL AND RELATIONSHIP
 // db.sync({ force: true }).then(() => {
 //   console.log('the database is sync');
-//});
+// });
 app.listen(PORT, () => {
   console.log(`the server is running on http://localhost:${PORT}`);
 });
