@@ -18,8 +18,8 @@ exports.loginUser = async (req, res, next) => {
     error.status = 401;
     return next(error);
   }
-
-  if (user.password !== password) {
+  const confirmedPassword = user.validPassword(password);
+  if (!confirmedPassword) {
     const error = new Error('Email or password is incorrected');
     error.status = 403;
     return next(error);
