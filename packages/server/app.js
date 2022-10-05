@@ -11,11 +11,16 @@ app.use(bodyParser.json());
 
 //Routes
 const v1Routes = require('./src/Routes');
+const throwErrors = require('./src/Middleware/throwErrors');
+const handleErrors = require('./src/Middleware/handleErrors');
 
 app.use('/api/v1', v1Routes);
 
-app.use('/', (req, res) => {
-  res.send('it is a express backend');
-});
+// app.use('/', (req, res) => {
+//   res.send('it is a express backend');
+// });
+
+app.use(throwErrors);
+app.use(handleErrors);
 
 module.exports = app;
