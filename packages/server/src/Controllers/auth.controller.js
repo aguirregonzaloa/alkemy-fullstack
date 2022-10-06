@@ -1,14 +1,15 @@
 const User = require('../Models/User');
+const asyncWrapper = require('../Middleware/asyncWrapper');
 
-exports.registerUser = async (req, res, next) => {
+exports.registerUser = asyncWrapper(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   const user = await User.create({ username, email, password });
 
   res.status(201).json({ user });
-};
+});
 
-exports.loginUser = async (req, res, next) => {
+exports.loginUser = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ where: { email } });
@@ -26,4 +27,4 @@ exports.loginUser = async (req, res, next) => {
   }
 
   return res.status(200).json({ user });
-};
+});
