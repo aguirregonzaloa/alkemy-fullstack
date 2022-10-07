@@ -12,7 +12,7 @@ Balance.init(
     },
     type: {
       type: DataTypes.ENUM,
-      values: ['income' || 'outcome'],
+      values: ['income', 'outcome'],
     },
   },
   {
