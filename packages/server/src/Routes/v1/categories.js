@@ -3,9 +3,13 @@ const {
   getCategories,
   createCategories,
 } = require('../../Controllers/category.controller');
+const verifyToken = require('../../Middleware/auth.middleware');
 
-const balancesRouter = Router();
+const categoriesRouter = Router();
 
-balancesRouter.route('/').get(getCategories).post(createCategories);
+categoriesRouter
+  .route('/')
+  .get(getCategories)
+  .post(verifyToken, createCategories);
 
-module.exports = balancesRouter;
+module.exports = categoriesRouter;

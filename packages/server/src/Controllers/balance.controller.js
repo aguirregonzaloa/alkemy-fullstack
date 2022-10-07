@@ -8,28 +8,17 @@ exports.getBalances = asyncWrapper(async (req, res) => {
 });
 
 exports.createBalance = asyncWrapper(async (req, res) => {
-  const { description, amount, type, userId, categoryId } = req.body;
-  console.log(description, amount, type, userId, categoryId);
-  let balance;
+  const { description, amount, type, categoryId } = req.body;
 
-  // if (userId != undefined && categoryId != undefined) {
-  console.log('with user and category');
-  balance = await Balance.create({
+  const userId = req.user?.id;
+
+  const balance = await Balance.create({
     description,
     amount,
     type,
     userId,
     categoryId,
   });
-  // } else if (userId !== undefined) {
-  //   console.log('without category');
-  //   balance = await Balance.create({ description, amount, type, userId });
-  // } else if (categoryId !== undefined) {
-  //   balance = await Balance.create({ description, amount, type, categoryId });
-  // } else {
-  //   console.log('without user and category');
-  //   balance = await Balance.create({ description, amount, type });
-  // }
 
   return res.status(201).json({ balance });
 });
