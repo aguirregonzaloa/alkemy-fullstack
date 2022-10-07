@@ -7,7 +7,7 @@ db.authenticate()
   .then(() => {
     console.log('the connection with database is correct');
   })
-  .catch((err) => console.log('Something wrong happened'.err));
+  .catch((err) => console.log('Something wrong happened', err));
 
 //FUNCTION USING TO SYNCRONIZE NEW MODEL AND RELATIONSHIP
 // db.sync({ force: true }).then(() => {

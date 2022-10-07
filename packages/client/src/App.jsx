@@ -1,19 +1,15 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import * as React from 'react';
 
 import './App.css';
+import NavBar from './components/NavBar/NavBar';
+import Home from './pages/Home';
 
 function App() {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    axios.get('/api/v1/users').then((data) => setUser(data.data));
-  }, []);
-
   return (
     <div className="App">
-      <h1>Testing connection with the server</h1>
-      <p>{JSON.stringify(user.data)}</p>
+      <NavBar />
+      <h1>HomePage</h1>
+      <Home />
     </div>
   );
 }
