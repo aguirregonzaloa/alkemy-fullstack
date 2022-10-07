@@ -4,9 +4,19 @@ const asyncWrapper = require('../Middleware/asyncWrapper');
 exports.registerUser = asyncWrapper(async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  const user = await User.create({ username, email, password });
+  const user = await User.findOne({ where: { email } });
 
-  res.status(201).json({ user });
+  if (user) {
+    const error = new Error('Email is already registered');
+    error.status = 400;
+    return next(error);
+  }
+
+  await User.create({ username, email, password });
+
+  res
+    .status(201)
+    .json({ msg: 'Registation was successfull. You can login now' });
 });
 
 exports.loginUser = asyncWrapper(async (req, res, next) => {

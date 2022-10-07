@@ -12,11 +12,24 @@ Category.init(
       autoIncrement: true,
       allowNull: false,
     },
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [3, 100],
+          msg: 'name must be min 5 and max 100 characters',
+        },
+        notNull: {
+          msg: 'name cannot be null',
+        },
+      },
+    },
   },
   {
     sequelize,
     modelName: 'category',
+    timestamps: false, //not save the date that when was created or updated
   }
 );
 

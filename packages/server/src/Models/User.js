@@ -11,15 +11,36 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Please enter your name',
+        },
+        len: {
+          args: [5, 100],
+          msg: 'username must be min 5 and max 100 characters',
+        },
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: { msg: 'Email is already registered' },
+      validate: {
+        isEmail: { msg: 'Email is not validated' },
+      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Please enter your password',
+        },
+        len: {
+          args: [3, 100],
+          msg: 'password must be min 3 and max 100 characters',
+        },
+      },
     },
   },
   {
