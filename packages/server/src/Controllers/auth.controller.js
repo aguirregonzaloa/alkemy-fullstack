@@ -1,4 +1,8 @@
 const User = require('../Models/User');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const asyncWrapper = require('../Middleware/asyncWrapper');
 
 exports.registerUser = asyncWrapper(async (req, res, next) => {
@@ -36,5 +40,10 @@ exports.loginUser = asyncWrapper(async (req, res, next) => {
     return next(error);
   }
 
-  return res.status(200).json({ user });
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.JWT_TOKEN
+  );
+
+  return res.status(200).json({ token });
 });

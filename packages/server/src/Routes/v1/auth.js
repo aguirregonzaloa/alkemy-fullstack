@@ -3,11 +3,14 @@ const {
   registerUser,
   loginUser,
 } = require('../../Controllers/auth.controller');
+const verifyToken = require('../../Middleware/auth.middleware');
 
 const authRoute = Router();
 
-authRoute.get('/', (req, res) => {
-  res.status(200).json({ data: { email: 'example.com', username: 'example' } });
+authRoute.get('/', verifyToken, (req, res) => {
+  res
+    .status(200)
+    .json({ data: { email: req.user.email, userId: req.user.id } });
 });
 
 authRoute.route('/register').post(registerUser);
