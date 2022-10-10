@@ -1,17 +1,18 @@
 import * as React from 'react';
 
 import './App.css';
-import NavBar from './components/NavBar/NavBar';
-import Home from './pages/Home';
+import NavBar from './components/NavBar/';
+import Footer from './components/Footer/';
 import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App w-screen h-[100vh]">
       <NavBar />
-      <h1>HomePage</h1>
-      {/* <Home /> */}
-      <Outlet />
+      <div className="h-[90%] h-min-[320px] bg-slate-200">
+        <Outlet />
+      </div>
+      <Footer />
     </div>
   );
 }
