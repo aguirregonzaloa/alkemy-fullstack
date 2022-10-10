@@ -9,9 +9,12 @@ const NavBar = () => {
           <Link to={'/'}>Logo</Link>
         </li>
       </ul>
-      <ul className="flex justify-center items-center">
-        <li className="mr-2">
+      <ul className="flex gap-1 justify-center items-center">
+        <li>
           <Link to={'/'}>Home</Link>
+        </li>
+        <li>
+          <Link to={'/balance'}>Balance</Link>
         </li>
         <li>
           <Link to={'/category'}>Category</Link>
