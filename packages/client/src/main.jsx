@@ -7,12 +7,16 @@ import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Home from './pages/Home';
+import Category from './pages/Category';
+import Balance from './pages/Balance';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
       { path: '', element: <Home /> },
+      { path: '/category', element: <Category /> },
+      { path: '/balance', element: <Balance /> },
       { path: '/register', element: <Register /> },
       {
         path: '/login',
