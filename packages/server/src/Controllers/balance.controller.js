@@ -1,8 +1,15 @@
 const asyncWrapper = require('../Middleware/asyncWrapper');
 const Balance = require('../Models/Balance');
+const User = require('../Models/User');
+const Category = require('../Models/Category');
 
 exports.getBalances = asyncWrapper(async (req, res) => {
-  const balances = await Balance.findAll();
+  const balances = await Balance.findAll({
+    include: [
+      { model: User, attributes: ['username'] },
+      { model: Category, attributes: ['name'] },
+    ],
+  });
 
   return res.status(200).json({ balances });
 });

@@ -31,7 +31,7 @@ function Home() {
     <div className="pt-4">
       <h2 className="text-center font-bold mb-10">Balance of the company: </h2>
 
-      <table class="table-fixed m-auto w-full">
+      <table className="table-fixed m-auto w-full">
         <thead className="border border-black border-solid bg-neutral-400">
           <tr>
             <th>Description:</th>
@@ -45,12 +45,12 @@ function Home() {
           {balances &&
             balances.map((item) => {
               return (
-                <tr className="text-center">
+                <tr className="text-center" key={item.id}>
                   <td>{item.description}</td>
                   <td>{item.amount}</td>
                   <td>{item.type}</td>
-                  <td>{item.categoryId}</td>
-                  <td>{item.userId}</td>
+                  <td>{item.category?.name}</td>
+                  <td>{item.user?.username}</td>
                 </tr>
               );
             })}
