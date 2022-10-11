@@ -1,6 +1,16 @@
-import React from 'react';
+import * as React from 'react';
+import { loginUser } from '../../shared/api/auth';
 
 function Login() {
+  React.useEffect(() => {
+    async function userData() {
+      const email = 'myName@email.com';
+      const password = '123';
+      const data = await loginUser({ email, password });
+      console.log(data);
+    }
+    userData();
+  }, []);
   return (
     <div className="m-auto w-full pt-4">
       <h2 className="font-bold text-center mb-4">Login:</h2>
