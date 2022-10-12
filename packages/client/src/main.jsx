@@ -9,13 +9,22 @@ import Login from './pages/Login/Login';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import Balance from './pages/Balance';
+import RequireAuth from './shared/auth/RequiredAuth';
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
       { path: '', element: <Home /> },
-      { path: '/category', element: <Category /> },
+      {
+        path: '/category',
+        element: (
+          <RequireAuth>
+            <Category />
+          </RequireAuth>
+        ),
+      },
       { path: '/balance', element: <Balance /> },
       { path: '/register', element: <Register /> },
       {

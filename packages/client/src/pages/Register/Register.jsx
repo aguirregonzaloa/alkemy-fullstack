@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { registerUser } from '../../shared/api/auth';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const [newUser, setNewUser] = React.useState({
@@ -8,6 +9,7 @@ const Register = () => {
     password: '',
     confpass: '',
   });
+
   const [msg, setMsg] = React.useState('');
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -24,6 +26,7 @@ const Register = () => {
       setLoading(loading);
     }
   };
+
   return (
     <div className="m-auto w-full pt-4">
       <h2 className="text-center font-bold mb-4">Register: </h2>
@@ -114,7 +117,13 @@ const Register = () => {
         </button>
         {msg && (
           <div className="bg-green-300 text-green-600 font-bold text-center p-1 mt-4">
-            {msg}
+            {msg}.{' '}
+            <Link
+              className=" hover:text-green-900 cursor-pointer"
+              to={'/login'}
+            >
+              Login Page
+            </Link>
           </div>
         )}
       </form>

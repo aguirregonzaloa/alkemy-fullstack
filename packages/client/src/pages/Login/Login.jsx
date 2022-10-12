@@ -1,23 +1,26 @@
 import * as React from 'react';
 import { loginUser, getUserData } from '../../shared/api/auth';
+import { userContext } from '../../shared/context/userContext';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [user, setUser] = React.useState({ email: '', password: '' });
-  const [data, setData] = React.useState(null);
+  const [login, setLogin] = React.useState({ email: '', password: '' });
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(() => {}, []);
+  const { user, setUser } = React.useContext(userContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { token, error, loading } = await loginUser(user);
+    const { token, error, loading } = await loginUser(login);
     if (token) {
       const { email } = await getUserData(token);
-      console.log(email);
+      localStorage.setItem('Token', token);
+      setUser({ ...user, email });
+      return navigate('/');
     }
-    setData(token);
     setError(error);
     setLoading(loading);
   };
@@ -35,11 +38,11 @@ function Login() {
             type="email"
             name="email"
             id="email"
-            value={user.email}
+            value={login.email}
             onChange={(e) => {
               const email = e.target.value;
               setError(null);
-              setUser({ ...user, email });
+              setLogin({ ...login, email });
             }}
             required
           />
@@ -53,11 +56,11 @@ function Login() {
             type="password"
             name="password"
             id="password"
-            value={user.password}
+            value={login.password}
             onChange={(e) => {
               const password = e.target.value;
               setError(null);
-              setUser({ ...user, password });
+              setLogin({ ...login, password });
             }}
             required
           />
@@ -65,11 +68,6 @@ function Login() {
         {error && (
           <p className="text-red-500 font-bold text-center bg-red-200 w-full p-1 mb-4">
             {error.msg}
-          </p>
-        )}
-        {data && (
-          <p className="text-green-500 font-bold text-center bg-green-200 w-full mb-4">
-            {JSON.stringify(data)}
           </p>
         )}
         <button
