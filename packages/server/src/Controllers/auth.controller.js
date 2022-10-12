@@ -5,6 +5,10 @@ dotenv.config();
 
 const asyncWrapper = require('../Middleware/asyncWrapper');
 
+exports.getUser = asyncWrapper(async (req, res, next) => {
+  return res.status(200).json({ email: req.user.email });
+});
+
 exports.registerUser = asyncWrapper(async (req, res, next) => {
   const { username, email, password } = req.body;
 
@@ -29,7 +33,7 @@ exports.loginUser = asyncWrapper(async (req, res, next) => {
   const user = await User.findOne({ where: { email } });
 
   if (!user) {
-    const error = new Error('User was not found');
+    const error = new Error('Email is not registered');
     error.status = 401;
     return next(error);
   }
