@@ -2,23 +2,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { userContext } from '../../shared/context/userContext';
 
-import { getUserData } from '../../shared/api/auth';
-
 const NavBar = () => {
   const { user, setUser } = React.useContext(userContext);
-
-  React.useEffect(() => {
-    // getter
-    const token = localStorage.getItem('Token');
-
-    if (token) {
-      async function loginUser() {
-        const { email } = await getUserData(token);
-        setUser({ ...user, email });
-      }
-      loginUser();
-    }
-  }, []);
 
   const Logout = (e) => {
     e.preventDefault();
