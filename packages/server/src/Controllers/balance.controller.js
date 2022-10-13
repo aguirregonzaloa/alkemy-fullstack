@@ -29,3 +29,14 @@ exports.createBalance = asyncWrapper(async (req, res) => {
 
   return res.status(201).json({ balance });
 });
+
+exports.getBalancesByUser = asyncWrapper(async (req, res) => {
+  const { id } = req.user;
+
+  const balances = await Balance.findAll({
+    where: { userId: id },
+    include: [{ model: Category, attributes: ['name'] }],
+  });
+
+  return res.status(200).json({ balances });
+});
