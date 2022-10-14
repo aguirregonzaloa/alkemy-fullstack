@@ -169,7 +169,7 @@ const Balance = () => {
                       <td>{item.category?.name || item.categoryId}</td>
                       <td>
                         <Link
-                          to={`balance/${item.id}/edit`}
+                          to={`/balance/${item.id}/edit`}
                           className="w-4 p-1 bg-slate-400 hover:bg-slate-800 text-slate-200 hover:text-white"
                         >
                           Edit

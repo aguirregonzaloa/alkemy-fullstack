@@ -16,6 +16,20 @@ export const getallBalances = async () => {
   }
 };
 
+export const getaBalance = async (id) => {
+  let data, error;
+  let loading = true;
+  try {
+    const res = await axios.get(`${baseURL}/${id}`);
+    data = await res.data.balance;
+  } catch (err) {
+    error = err.response.data.error;
+  } finally {
+    loading = false;
+    return { data, error, loading };
+  }
+};
+
 export const postBalances = async (balance) => {
   let data, error;
   let loading = true;
