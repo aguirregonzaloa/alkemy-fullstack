@@ -13,4 +13,11 @@ module.exports = {
     password: process.env.DB_TEST_PASSWORD || '',
     dialect: process.env.DB_TEST_DIALECT || 'mysql',
   },
+  production: {
+    database: process.env.DB_PROD_NAME || 'db_alkemy_prod',
+    username: process.env.DB_PROD_USER || 'root',
+    hostname: process.env.DB_PROD_HOST || 'localhost',
+    password: process.env.DB_PROD_PASSWORD || '',
+    dialect: process.env.DB_PROD_DIALECT || 'mysql',
+  },
 };
