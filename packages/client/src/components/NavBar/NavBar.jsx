@@ -16,18 +16,18 @@ const NavBar = () => {
     <div className="flex justify-evenly items-center">
       <ul>
         <li>
-          <Link to={'/'}>Logo</Link>
+          <Link to={`/`}>Logo</Link>
         </li>
       </ul>
       <ul className="flex gap-1 justify-center items-center">
         <li>
-          <Link to={'/'}>Home</Link>
+          <Link to={`/`}>Home</Link>
         </li>
         <li>
-          <Link to={'/balance'}>Balance</Link>
+          <Link to={`balance`}>Balance</Link>
         </li>
         <li>
-          <Link to={'/category'}>Category</Link>
+          <Link to={`category`}>Category</Link>
         </li>
       </ul>
       <ul className="flex justify-center items-center">
@@ -35,7 +35,7 @@ const NavBar = () => {
           <li className="mr-2">{user.email}</li>
         ) : (
           <li className="mr-2">
-            <Link to={'/register'}>Register</Link>
+            <Link to={`register`}>Register</Link>
           </li>
         )}
         {user.email ? (
@@ -44,7 +44,7 @@ const NavBar = () => {
           </li>
         ) : (
           <li className="mr-2">
-            <Link to={'/login'}>Login</Link>
+            <Link to={`login`}>Login</Link>
           </li>
         )}
       </ul>

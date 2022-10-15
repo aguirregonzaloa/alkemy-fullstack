@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './axiosConfig';
 
 const baseURL = 'api/v1/users';
 
@@ -7,7 +7,7 @@ export const getUserData = async (token) => {
     error,
     loading = true;
   try {
-    const res = await axios.get(`${baseURL}/me`, {
+    const res = await api.get(`${baseURL}/me`, {
       headers: {
         'x-access-token': `${token}`,
       },
@@ -26,7 +26,7 @@ export const registerUser = async (user) => {
     error,
     loading = true;
   try {
-    const res = await axios.post(`${baseURL}/register`, user);
+    const res = await api.post(`${baseURL}/register`, user);
     data = await res.data;
   } catch (err) {
     error = err.response.data.error;
@@ -41,7 +41,7 @@ export const loginUser = async (user) => {
     error,
     loading = true;
   try {
-    const res = await axios.post(`${baseURL}/login`, user);
+    const res = await api.post(`${baseURL}/login`, user);
     token = await res.data.token;
   } catch (err) {
     error = err.response.data.error;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getallCategories } from '../../../shared/api/categories';
 import { getaBalance } from '../../../shared/api/balances';
 
@@ -12,6 +12,7 @@ const BalanceEdit = ({ item }) => {
   });
   const [categories, setCategories] = React.useState([]);
   const [editBalance, setEditBalance] = React.useState(null);
+  const params = useParams();
 
   async function getCategories() {
     const { data, error, loading } = await getallCategories();
@@ -20,10 +21,11 @@ const BalanceEdit = ({ item }) => {
   }
 
   async function getBalance() {
-    const { data, error, loading } = await getaBalance();
+    const id = params.id;
+    const { data, error, loading } = await getaBalance(id);
     console.log(data);
 
-    setNewBalance({ ...newBalance, data });
+    setNewBalance(data);
   }
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './axiosConfig';
 
 const baseURL = 'api/v1/balances';
 
@@ -6,7 +6,7 @@ export const getallBalances = async () => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.get(baseURL);
+    const res = await api.get(baseURL);
     data = await res.data.balances;
   } catch (err) {
     error = err.response.data.error;
@@ -20,7 +20,7 @@ export const getaBalance = async (id) => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.get(`${baseURL}/${id}`);
+    const res = await api.get(`${baseURL}/${id}`);
     data = await res.data.balance;
   } catch (err) {
     error = err.response.data.error;
@@ -34,7 +34,7 @@ export const postBalances = async (balance) => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.post(baseURL, balance);
+    const res = await api.post(baseURL, balance);
     data = await res.data.balance;
   } catch (err) {
     error = err.response.data.error;
@@ -47,7 +47,7 @@ export const getallBalancesByUser = async (token) => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.get(`${baseURL}/byUser`, {
+    const res = await api.get(`${baseURL}/byUser`, {
       headers: {
         'x-access-token': `${token}`,
       },
@@ -65,7 +65,7 @@ export const postBalancesByUser = async (balance, token) => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.post(`${baseURL}/byUser`, balance, {
+    const res = await api.post(`${baseURL}/byUser`, balance, {
       headers: {
         'x-access-token': `${token}`,
       },

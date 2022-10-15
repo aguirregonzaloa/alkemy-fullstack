@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './axiosConfig';
 
 const baseURL = 'api/v1/categories';
 
@@ -6,7 +6,7 @@ export const getallCategories = async () => {
   let data, error;
   let loading = true;
   try {
-    const res = await axios.get(baseURL);
+    const res = await api.get(baseURL);
     data = await res.data.categories;
     loading = false;
     return { data, error, loading };
