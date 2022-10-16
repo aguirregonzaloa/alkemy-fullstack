@@ -19,6 +19,13 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+//Routes
+const v1Routes = require('./src/Routes');
+const notFoundError = require('./src/Middleware/notFoundError');
+const handleErrors = require('./src/Middleware/handleErrors');
+
+app.use('/api/v1', v1Routes);
+
 if (isProd) {
   // Compute the build path and index.html path
   const buildPath = path.resolve(__dirname, '../client/dist');
@@ -27,19 +34,12 @@ if (isProd) {
   // Setup build path as a static assets path
   app.use(express.static(buildPath));
   // Serve index.html on unmatched routes
-  app.get('/', (req, res) => res.sendFile(indexHtml));
+  app.get('*', (req, res) => res.sendFile(indexHtml));
 } else {
   app.get('/', (req, res) => {
     res.send('it is a express backend');
   });
 }
-
-//Routes
-const v1Routes = require('./src/Routes');
-const notFoundError = require('./src/Middleware/notFoundError');
-const handleErrors = require('./src/Middleware/handleErrors');
-
-app.use('/api/v1', v1Routes);
 
 app.use(notFoundError);
 app.use(handleErrors);
