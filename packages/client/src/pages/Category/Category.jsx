@@ -26,6 +26,12 @@ const Category = () => {
 
   const handleChange = (e) => {
     const name = e.target.value;
+    setCreateCategory({
+      ...createCategory,
+      data: null,
+      error: null,
+      loading: false,
+    });
     setCategory({ ...category, name });
   };
 
@@ -37,6 +43,7 @@ const Category = () => {
     setCreateCategory({ ...createCategory, data, error, loading });
     getCategories();
   };
+
   return (
     <div className="pt-4">
       <h2 className="text-center font-bold mb-10"> Category: </h2>
@@ -52,27 +59,28 @@ const Category = () => {
             onChange={handleChange}
             required
           />
+
+          <button
+            className={
+              createCategory.loading
+                ? 'bg-slate-900 text-white font-bold rounded p-2'
+                : 'bg-slate-400 text-white font-bold rounded p-2'
+            }
+          >
+            New
+            {createCategory.loading ? <span>...</span> : ''}
+          </button>
         </div>
         {createCategory.data && (
-          <p className="text-green-800 bg-green-300 font-bold">
+          <p className="text-green-800 bg-green-300 font-bold text-center">
             Created a new Category successfully
           </p>
         )}
         {createCategory.error && (
-          <p className="text-red-800 bg-red-300 font-bold">
+          <p className="text-red-800 bg-red-300 font-bold text-center">
             Category was not created
           </p>
         )}
-        <button
-          className={
-            createCategory.loading
-              ? 'bg-slate-900 text-white font-bold rounded p-3 w-full'
-              : 'bg-slate-400 text-white font-bold rounded p-3 w-full'
-          }
-        >
-          New Category
-          {createCategory.loading ? <span>...</span> : ''}
-        </button>
       </form>
       <div className="w-[550px] m-auto mt-10">
         <h3>List of Categories:</h3>

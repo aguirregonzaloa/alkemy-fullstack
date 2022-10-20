@@ -30,6 +30,24 @@ export const getaBalance = async (id) => {
   }
 };
 
+export const editBalance = async (id, balance, token) => {
+  let data, error;
+  let loading = true;
+  try {
+    const res = await api.put(`${baseURL}/${id}`, balance, {
+      headers: {
+        'x-access-token': `${token}`,
+      },
+    });
+    data = await res.data.updateBalance;
+  } catch (err) {
+    error = err.response.data.error;
+  } finally {
+    loading = false;
+    return { data, error, loading };
+  }
+};
+
 export const postBalances = async (balance) => {
   let data, error;
   let loading = true;

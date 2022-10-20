@@ -1,147 +1,60 @@
 import * as React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getallCategories } from '../../../shared/api/categories';
-import { getaBalance } from '../../../shared/api/balances';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { editBalance } from '../../../shared/api/balances';
 
-const BalanceEdit = ({ item }) => {
-  const [newBalance, setNewBalance] = React.useState({
-    description: '',
-    amount: 0,
-    type: null,
-    categoryId: null,
-  });
-  const [categories, setCategories] = React.useState([]);
-  const [editBalance, setEditBalance] = React.useState(null);
-  const params = useParams();
+import InputBalance from '../../../components/InputBalance/';
 
-  async function getCategories() {
-    const { data, error, loading } = await getallCategories();
-    const defaultValue = { id: '', name: '--Choose a option--' };
-    setCategories([defaultValue, ...data]);
-  }
+const BalanceEdit = () => {
+  const [edit, setEdit] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
-  async function getBalance() {
-    const id = params.id;
-    const { data, error, loading } = await getaBalance(id);
-    console.log(data);
+  const location = useLocation();
+  const item = location.state?.item;
+  const navegate = useNavigate();
 
-    setNewBalance(data);
-  }
-
-  React.useEffect(() => {
-    getCategories();
-    getBalance();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const pullData = async (editData) => {
+    setLoading(true);
     const token = localStorage.getItem('Token');
-    // if (token) {
-    //   const { data, error, loading } = await postBalancesByUser(
-    //     newBalance,
-    //     token
-    //   );
-    //   setCreateBalance(data);
-    //   if (data) {
-    //     getBalancesUser();
-    //   }
-    // }
+    const { data, error, loading } = await editBalance(
+      editData.id,
+      editData,
+      token
+    );
+    setEdit(data);
+    setError(error);
+    setLoading(loading);
   };
+
+  if (edit) {
+    setTimeout(() => {
+      navegate('/balance');
+    }, 1000);
+  }
 
   return (
     <div className="pt-4">
-      <h2 className="text-center font-bold mb-10">Editing Balance: {item}</h2>
-      <form onSubmit={handleSubmit} className="w-[550px] m-auto">
-        <div className="flex justify-between items-center mb-4">
-          <label htmlFor="description" className="w-[25%]">
-            Description:
-          </label>
-          <input
-            className="w-[75%] border border-black border-solid rounded"
-            type="text"
-            name="description"
-            id="description"
-            value={newBalance.description}
-            onChange={(e) => {
-              const description = e.target.value.trim();
-              setNewBalance({ ...newBalance, description });
-            }}
-            required
-          />
-        </div>
-        <div className="flex  items-center mb-4">
-          <label htmlFor="amount" className="w-[25%]">
-            Amount:
-          </label>
-          <input
-            className="w-[100px] border border-black border-solid rounded"
-            type="number"
-            name="amount"
-            id="amount"
-            value={newBalance.amount}
-            onChange={(e) => {
-              const amount = e.target.value.trim();
-              setNewBalance({ ...newBalance, amount });
-            }}
-            required
-          />
-        </div>
-        <div className="flex items-center mb-4">
-          <label htmlFor="type" className="w-[25%]">
-            Type:
-          </label>
-          <select
-            name="type"
-            id="type"
-            value={newBalance.type}
-            onChange={(e) => {
-              const type = e.target.value;
-              setNewBalance({ ...newBalance, type });
-            }}
-            className="w-[75%] h-[30px] border border-black border-solid rounded"
-            required
-          >
-            <option value="" selected>
-              --Choose a option--
-            </option>
-            <option value="income">income</option>
-            <option value="outcome">outcome</option>
-          </select>
-        </div>
-        <div className="flex items-center mb-6">
-          <label htmlFor="category" className="w-[25%] ">
-            Category:
-          </label>
-          <select
-            name="categories"
-            id="categories"
-            className="w-[75%] h-[30px] border border-black border-solid rounded"
-            value={newBalance.categoryId}
-            onChange={(e) => {
-              const categoryId = e.target.value;
-              setNewBalance({ ...newBalance, categoryId });
-            }}
-            required
-          >
-            {categories &&
-              categories.map((item) => {
-                return (
-                  <option value={item.id} key={item.id}>
-                    {item.name}
-                  </option>
-                );
-              })}
-          </select>
-        </div>
-        {editBalance && (
-          <p className="bg-green-200 text-green-700 text-center mb-4">
-            Edited the balance successfully!!!
-          </p>
+      <div className="text-center font-bold mb-10">
+        <h2>Editing Balance:</h2>
+        <h3>{item?.description}</h3>
+      </div>
+      <InputBalance pushData={pullData} edit={true} balance={item}>
+        {loading && (
+          <div className="bg-sky-200 text-sky-700 font-bold text-center  m-auto">
+            The Balance is updating....
+          </div>
         )}
-        <button className="bg-slate-400 text-white font-bold rounded w-full p-3">
-          Edit Balance
-        </button>
-      </form>
+        {edit && (
+          <div className="bg-green-200 text-green-700 font-bold text-center  m-auto">
+            The Balance was edited Successfully!!!
+          </div>
+        )}
+        {error && (
+          <div className="bg-red-200 text-red-700 font-bold text-center m-auto">
+            {error.msg}
+          </div>
+        )}
+      </InputBalance>
     </div>
   );
 };

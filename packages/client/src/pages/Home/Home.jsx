@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { getallBalances } from '../../shared/api/balances';
+import Table from '../../components/Table/Table';
 
 function Home() {
   const [balances, setBalances] = React.useState([]);
@@ -31,31 +32,13 @@ function Home() {
     <div className="pt-4">
       <h2 className="text-center font-bold mb-10">Balance of the company: </h2>
 
-      <table className="table-fixed m-auto w-full">
-        <thead className="border border-black border-solid bg-neutral-400">
-          <tr>
-            <th>Description:</th>
-            <th>Amount:</th>
-            <th>Type:</th>
-            <th>Category:</th>
-            <th>Username:</th>
-          </tr>
-        </thead>
-        <tbody className="border border-black border-solid">
-          {balances &&
-            balances.map((item) => {
-              return (
-                <tr className="text-center" key={item.id}>
-                  <td>{item.description}</td>
-                  <td>{item.amount}</td>
-                  <td>{item.type}</td>
-                  <td>{item.category?.name}</td>
-                  <td>{item.user?.username}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      {balances && balances.length > 0 ? (
+        <Table balances={balances} user={false} />
+      ) : (
+        <p className="bg-red-200 text-red-600 font-bold  w-[320px] m-auto text-center">
+          There is not any balances yet
+        </p>
+      )}
     </div>
   );
 }
