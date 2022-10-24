@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { getallCategories, postCategory } from '../../shared/api/categories';
+import Spinner from '../../components/Spinner/Spinner';
 
 const Category = () => {
   const [categories, setCategories] = React.useState([]);
@@ -9,7 +10,7 @@ const Category = () => {
     error: null,
     loading: false,
   });
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   async function getCategories() {
@@ -20,7 +21,6 @@ const Category = () => {
   }
 
   React.useEffect(() => {
-    setLoading(true);
     getCategories();
   }, []);
 
@@ -61,14 +61,11 @@ const Category = () => {
           />
 
           <button
-            className={
-              createCategory.loading
-                ? 'bg-slate-900 text-white font-bold rounded p-2'
-                : 'bg-slate-400 text-white font-bold rounded p-2'
-            }
+            className={`flex gap-2 justify-center items-center text-white font-bold rounded p-2
+              ${createCategory.loading ? 'bg-slate-900 ' : 'bg-slate-400'}`}
           >
             New
-            {createCategory.loading ? <span>...</span> : ''}
+            {createCategory.loading ? <Spinner /> : ''}
           </button>
         </div>
         {createCategory.data && (
@@ -83,11 +80,20 @@ const Category = () => {
         )}
       </form>
       <div className="w-[550px] m-auto mt-10">
-        <h3>List of Categories:</h3>
-        {categories &&
-          categories.map((item) => {
+        <h3 className={`text-black font-bold text-center`}>
+          List of Categories:
+        </h3>
+        {loading ? (
+          <Spinner />
+        ) : categories.length > 0 ? (
+          categories?.map((item) => {
             return <p key={item.id}>{item.name}</p>;
-          })}
+          })
+        ) : (
+          <div className="text-red-800 bg-red-300 font-bold  h-[550px]">
+            There is any category yet
+          </div>
+        )}
       </div>
     </div>
   );

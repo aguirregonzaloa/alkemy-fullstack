@@ -32,13 +32,7 @@ function Home() {
     <div className="pt-4">
       <h2 className="text-center font-bold mb-10">Balance of the company: </h2>
 
-      {balances && balances.length > 0 ? (
-        <Table balances={balances} user={false} />
-      ) : (
-        <p className="bg-red-200 text-red-600 font-bold  w-[320px] m-auto text-center">
-          There is not any balances yet
-        </p>
-      )}
+      {balances && <Table balances={balances} user={false} />}
     </div>
   );
 }

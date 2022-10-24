@@ -2,6 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Table({ balances, user }) {
+  if (balances.length === 0)
+    return user ? (
+      <p className="bg-red-200 text-red-600 font-bold  w-[320px] m-auto text-center">
+        User do not have balances yet
+      </p>
+    ) : (
+      <p className="bg-red-200 text-red-600 font-bold  w-[320px] m-auto text-center">
+        There is not any balance yet
+      </p>
+    );
+
   return (
     <div>
       <table className="table-fixed m-auto min-w-[960px]">
@@ -11,7 +22,7 @@ function Table({ balances, user }) {
             <th>Amount:</th>
             <th>Type:</th>
             <th>Category:</th>
-            <th></th>
+            <th>{user ? '' : 'Username:'}</th>
           </tr>
         </thead>
         <tbody className="border border-black border-solid">

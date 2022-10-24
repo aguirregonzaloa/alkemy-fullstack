@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getallCategories } from '../../shared/api/categories';
+import Spinner from '../Spinner/Spinner';
 
 const InputBalance = ({ pushData, edit, balance, children }) => {
   const initBalance = edit
@@ -123,8 +124,20 @@ const InputBalance = ({ pushData, edit, balance, children }) => {
           </select>
         </div>
         <div className="w-full text-center">
-          <button className="bg-slate-400 text-white font-bold rounded p-3 mb-3 mr-4">
-            {edit ? <span>Edit Balance</span> : <span>New Balance</span>}
+          <button
+            className={`text-white font-bold rounded p-3 mb-3 mr-4 ${
+              children[0] ? 'bg-slate-900' : 'bg-slate-400'
+            }`}
+          >
+            {edit ? (
+              <span className="flex gap-2 justify-center items-center">
+                Edit Balance{children[0] ? <Spinner /> : ''}
+              </span>
+            ) : (
+              <span className="flex gap-2 justify-center items-center">
+                New Balance{children[0] ? <Spinner /> : ''}
+              </span>
+            )}
           </button>
           <button
             className="bg-slate-400 text-white font-bold rounded p-3 mb-3"
@@ -133,7 +146,8 @@ const InputBalance = ({ pushData, edit, balance, children }) => {
             Cancel
           </button>
         </div>
-        {children}
+        {children[1]}
+        {children[2]}
       </form>
     </div>
   );

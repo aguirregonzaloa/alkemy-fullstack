@@ -6,6 +6,7 @@ import {
 } from '../../shared/api/balances';
 import Table from '../../components/Table/Table';
 import InputBalance from '../../components/InputBalance/';
+import Spinner from '../../components/Spinner/Spinner';
 
 const Balance = () => {
   const [newBalance, setNewBalance] = React.useState({
@@ -16,14 +17,19 @@ const Balance = () => {
   });
 
   const [balances, setBalances] = React.useState([]);
+  const [loadingBalance, setLoadingBalance] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const [createBalance, setCreateBalance] = React.useState(null);
+  const token = localStorage.getItem('Token');
 
   async function getBalancesUser() {
-    const token = localStorage.getItem('Token');
-    if (token) {
-      const { data, error, loading } = await getallBalancesByUser(token);
+    const { data, error, loading } = await getallBalancesByUser(token);
+    if (!error) {
       setBalances(data);
     }
+    setLoadingBalance(loading);
+    setError(error);
   }
 
   React.useEffect(() => {
@@ -31,38 +37,48 @@ const Balance = () => {
   }, []);
 
   const pullData = async (newBalance) => {
-    const token = localStorage.getItem('Token');
-    if (token) {
-      const { data, error, loading } = await postBalancesByUser(
-        newBalance,
-        token
-      );
-      setCreateBalance(data);
-      if (data) {
-        getBalancesUser();
-      }
+    setLoading(true);
+    const { data, error, loading } = await postBalancesByUser(
+      newBalance,
+      token
+    );
+    setCreateBalance(data);
+    if (data) {
+      getBalancesUser();
     }
+    setError(error);
+    setLoading(loading);
   };
 
   return (
     <div className="pt-4">
       <h2 className="text-center font-bold mb-10">Balance:</h2>
-      <InputBalance pushData={pullData} edit={false} />
-      {createBalance && (
-        <div className="bg-green-200 text-green-700 font-bold text-center">
-          Created a new Balance Successfully!!!
-        </div>
-      )}
+      <InputBalance pushData={pullData} edit={false}>
+        {loading && (
+          <div className="bg-sky-200 text-sky-700 font-bold text-center  m-auto">
+            The Balance is updating....
+          </div>
+        )}
+        {createBalance && (
+          <div className="bg-green-200 text-green-700 font-bold text-center">
+            Created a new Balance Successfully!!!
+          </div>
+        )}
+        {error && (
+          <div className="bg-red-200 text-red-700 font-bold text-center m-auto">
+            {error.msg}
+          </div>
+        )}
+      </InputBalance>
 
       <div className="mt-10">
         <h2 className="text-center font-bold mb-4">List of Balances:</h2>
-
-        {balances && balances.length > 0 ? (
-          <Table balances={balances} user={true} />
+        {loadingBalance ? (
+          <div className="bg-sky-200 text-sky-700 font-bold  w-[320px] m-auto text-center flex gap-2 justify-center items-center">
+            Loading {<Spinner />}
+          </div>
         ) : (
-          <p className="bg-red-200 text-red-600 font-bold  w-[320px] m-auto text-center">
-            User do not have balances yet
-          </p>
+          <Table balances={balances} user={true} />
         )}
       </div>
     </div>

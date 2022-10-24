@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { userContext } from '../../shared/context/userContext';
 
 const NavBar = () => {
@@ -12,22 +12,36 @@ const NavBar = () => {
     setUser({ ...user, email: null });
   };
 
+  const linkActived = ({ isActive }) => {
+    return isActive
+      ? 'font-bold border-b-2 border-black'
+      : 'text-black hover:font-bold hover:border-b-2 hover:border-black';
+  };
+
   return (
     <div className="flex justify-evenly items-center">
       <ul>
         <li>
-          <Link to={`/`}>Logo</Link>
+          <NavLink end className={(state) => linkActived(state)} to={`/`}>
+            Logo
+          </NavLink>
         </li>
       </ul>
       <ul className="flex gap-1 justify-center items-center">
         <li>
-          <Link to={`/`}>Home</Link>
+          <NavLink end className={(state) => linkActived(state)} to={`/`}>
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to={`balance`}>Balance</Link>
+          <NavLink className={(state) => linkActived(state)} to={`balance`}>
+            Balance
+          </NavLink>
         </li>
         <li>
-          <Link to={`category`}>Category</Link>
+          <NavLink className={(state) => linkActived(state)} to={`category`}>
+            Category
+          </NavLink>
         </li>
       </ul>
       <ul className="flex justify-center items-center">
@@ -35,7 +49,7 @@ const NavBar = () => {
           <li className="mr-2">{user.email}</li>
         ) : (
           <li className="mr-2">
-            <Link to={`register`}>Register</Link>
+            <NavLink to={`register`}>Register</NavLink>
           </li>
         )}
         {user.email ? (
@@ -44,7 +58,7 @@ const NavBar = () => {
           </li>
         ) : (
           <li className="mr-2">
-            <Link to={`login`}>Login</Link>
+            <NavLink to={`login`}>Login</NavLink>
           </li>
         )}
       </ul>
